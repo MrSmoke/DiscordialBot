@@ -6,15 +6,18 @@
     using Discord.WebSocket;
     using Internal;
     using Microsoft.Extensions.Logging;
+    using Microsoft.Extensions.Options;
 
     public class DiscordBot : IDisposable, IBot
     {
         private readonly ILogger<DiscordBot> _logger;
+        private readonly DiscordBotOptions _options;
         private readonly DiscordSocketClient _client;
         
-        public DiscordBot(ILogger<DiscordBot> logger)
+        public DiscordBot(ILogger<DiscordBot> logger, IOptions<DiscordBotOptions> options)
         {
             _logger = logger;
+            _options = options.Value;
             _client = new DiscordSocketClient();
             
             _client.Log += LogAsync;
@@ -24,7 +27,7 @@
 
         public async Task StartAsync()
         {
-            await _client.LoginAsync(TokenType.Bot, "todo");
+            await _client.LoginAsync(TokenType.Bot, _options.AccessToken);
             await _client.StartAsync();
         }
 
@@ -53,7 +56,7 @@
             if (message.Author.Id == _client.CurrentUser.Id)
                 return Task.CompletedTask;
 
-            _logger.LogDebug("Received message: {Author}: {Message}", message.Author.Username, message.Content);
+            _logger.LogDebug("Received message: ({Author}) {Message}", message.Author.Username, message.Content);
 
             return Task.CompletedTask;
         }

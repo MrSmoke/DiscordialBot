@@ -4,6 +4,7 @@
     using System.Threading;
     using System.Threading.Tasks;
     using Internal;
+    using Microsoft.Extensions.Configuration;
     using Microsoft.Extensions.DependencyInjection;
     using Microsoft.Extensions.Logging;
 
@@ -11,13 +12,25 @@
     {
         private static async Task Main(string[] args)
         {
+            var configBuilder = new ConfigurationBuilder()
+                .SetBasePath(AppContext.BaseDirectory)
+                .AddEnvironmentVariables()
+                .AddCommandLine(args)
+                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+            var config = configBuilder.Build();
             var services = new ServiceCollection();
 
+            services.AddSingleton(_ => config);
+            
+            services.AddOptions();
             services.AddLogging(o =>
             {
                 o.SetMinimumLevel(LogLevel.Debug);
                 o.AddConsole();
             });
+
+            services.Configure<DiscordBotOptions>(config);
             services.AddSingleton<IBot, DiscordBot>();
             
             await using var serviceProvider = services.BuildServiceProvider();

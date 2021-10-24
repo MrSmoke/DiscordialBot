@@ -2,7 +2,7 @@
 {
     using System.Threading.Tasks;
 
-    public interface IBot
+    internal interface IBot
     {
         Task StartAsync();
         Task StopAsync();

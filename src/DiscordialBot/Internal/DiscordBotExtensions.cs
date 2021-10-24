@@ -3,7 +3,7 @@
     using System.Threading;
     using System.Threading.Tasks;
 
-    public static class DiscordBotExtensions
+    internal static class DiscordBotExtensions
     {
         public static async Task WaitForTokenShutdownAsync(this IBot bot, CancellationToken cancellationToken)
         {
