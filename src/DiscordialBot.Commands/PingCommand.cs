@@ -1,13 +1,15 @@
 ﻿namespace DiscordialBot.Commands;
 
+using Core.Commands;
+
 public class PingCommand : BasicCommand
 {
     public PingCommand() : base("ping")
     {
     }
 
-    public override Task RunAsync(SocketMessage message, CancellationToken token = default)
+    protected override ValueTask<string> ReplyAsync(CancellationToken token)
     {
-        return message.Channel.SendMessageAsync("pong");
+        return new ValueTask<string>("pong");
     }
 }

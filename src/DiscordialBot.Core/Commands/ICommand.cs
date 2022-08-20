@@ -1,4 +1,4 @@
-﻿namespace DiscordialBot.Core;
+﻿namespace DiscordialBot.Core.Commands;
 
 public interface ICommand
 {
