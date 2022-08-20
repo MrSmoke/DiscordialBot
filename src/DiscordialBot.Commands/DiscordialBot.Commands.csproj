@@ -1,7 +1,5 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
-    <ItemGroup>
-      <ProjectReference Include="..\DiscordialBot\DiscordialBot.csproj" />
-    </ItemGroup>
-
+  <ItemGroup>
+    <ProjectReference Include="..\DiscordialBot.Core\DiscordialBot.Core.csproj" />
+  </ItemGroup>
 </Project>

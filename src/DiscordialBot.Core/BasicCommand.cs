@@ -1,4 +1,4 @@
-﻿namespace DiscordialBot;
+﻿namespace DiscordialBot.Core;
 
 public abstract class BasicCommand : Command
 {

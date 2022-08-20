@@ -9,6 +9,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "_Solution Items", "_Solutio
 		Directory.Build.props = Directory.Build.props
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DiscordialBot.Core", "src\DiscordialBot.Core\DiscordialBot.Core.csproj", "{8F35A419-DC78-4858-9C1B-1579AF817762}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,5 +25,9 @@ Global
 		{050EEEC2-6BCA-4BBC-A070-3416F48DB6D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{050EEEC2-6BCA-4BBC-A070-3416F48DB6D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{050EEEC2-6BCA-4BBC-A070-3416F48DB6D6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8F35A419-DC78-4858-9C1B-1579AF817762}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8F35A419-DC78-4858-9C1B-1579AF817762}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8F35A419-DC78-4858-9C1B-1579AF817762}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8F35A419-DC78-4858-9C1B-1579AF817762}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

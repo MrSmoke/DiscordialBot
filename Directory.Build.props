@@ -9,5 +9,6 @@
     <ItemGroup>
         <Using Include="Discord" />
         <Using Include="Discord.WebSocket" />
+        <Using Include="DiscordialBot.Core" />
     </ItemGroup>
 </Project>

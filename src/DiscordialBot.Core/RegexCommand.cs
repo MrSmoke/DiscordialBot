@@ -1,4 +1,4 @@
-﻿namespace DiscordialBot;
+﻿namespace DiscordialBot.Core;
 
 using System.Text.RegularExpressions;
 
