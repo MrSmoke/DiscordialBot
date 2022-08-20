@@ -1,8 +1,5 @@
 ﻿namespace DiscordialBot.Internal;
 
-using System.Threading;
-using System.Threading.Tasks;
-
 internal static class DiscordBotExtensions
 {
     public static async Task WaitForTokenShutdownAsync(this IBot bot, CancellationToken cancellationToken)

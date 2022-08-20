@@ -1,8 +1,5 @@
 ﻿namespace DiscordialBot.Internal;
 
-using System;
-using System.Threading;
-
 internal class BotLifetime : IDisposable
 {
     private readonly CancellationTokenSource _cts;

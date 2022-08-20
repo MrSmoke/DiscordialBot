@@ -5,4 +5,9 @@
         <WarningsAsErrors>nullable</WarningsAsErrors>
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
+
+    <ItemGroup>
+        <Using Include="Discord" />
+        <Using Include="Discord.WebSocket" />
+    </ItemGroup>
 </Project>

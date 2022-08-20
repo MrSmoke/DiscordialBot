@@ -1,7 +1,6 @@
 ﻿namespace DiscordialBot;
 
 using System.Text.RegularExpressions;
-using Discord.WebSocket;
 
 public abstract class RegexCommand : Command
 {

@@ -1,8 +1,5 @@
 ﻿namespace DiscordialBot;
 
-using System;
-using Discord.WebSocket;
-
 public abstract class BasicCommand : Command
 {
     private readonly string _command;
