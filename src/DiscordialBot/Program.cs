@@ -33,6 +33,7 @@ public class Program
 
         // todo: make this nicer
         services.AddSingleton<ICommand, PingCommand>();
+        services.AddSingleton<ICommand, Aoe2TauntCommand>();
 
         await using var serviceProvider = services.BuildServiceProvider();
 
