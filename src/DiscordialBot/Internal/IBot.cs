@@ -1,10 +1,9 @@
-﻿namespace DiscordialBot.Internal
-{
-    using System.Threading.Tasks;
+﻿namespace DiscordialBot.Internal;
 
-    internal interface IBot
-    {
-        Task StartAsync();
-        Task StopAsync();
-    }
+using System.Threading.Tasks;
+
+internal interface IBot
+{
+    Task StartAsync();
+    Task StopAsync();
 }

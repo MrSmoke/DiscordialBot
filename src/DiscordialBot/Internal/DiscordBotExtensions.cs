@@ -1,25 +1,24 @@
-﻿namespace DiscordialBot.Internal
+﻿namespace DiscordialBot.Internal;
+
+using System.Threading;
+using System.Threading.Tasks;
+
+internal static class DiscordBotExtensions
 {
-    using System.Threading;
-    using System.Threading.Tasks;
-
-    internal static class DiscordBotExtensions
+    public static async Task WaitForTokenShutdownAsync(this IBot bot, CancellationToken cancellationToken)
     {
-        public static async Task WaitForTokenShutdownAsync(this IBot bot, CancellationToken cancellationToken)
+        var waitForStop = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+
+        cancellationToken.Register(state =>
         {
-            var waitForStop = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
+            var (discordBot, tcs) = ((IBot bot, TaskCompletionSource tcs)) state!;
 
-            cancellationToken.Register(state =>
+            discordBot.StopAsync().ContinueWith(_ =>
             {
-                var (discordBot, tcs) = ((IBot bot, TaskCompletionSource tcs)) state!;
+                tcs.TrySetResult();
+            }, TaskContinuationOptions.None);
+        }, (bot, waitForStop));
 
-                discordBot.StopAsync().ContinueWith(_ =>
-                {
-                    tcs.TrySetResult();
-                }, TaskContinuationOptions.None);
-            }, (bot, waitForStop));
-            
-            await waitForStop.Task;
-        }
+        await waitForStop.Task;
     }
 }

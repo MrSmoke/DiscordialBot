@@ -1,76 +1,75 @@
-﻿namespace DiscordialBot
+﻿namespace DiscordialBot;
+
+using System;
+using System.Threading;
+using System.Threading.Tasks;
+using Internal;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
+
+public class Program
 {
-    using System;
-    using System.Threading;
-    using System.Threading.Tasks;
-    using Internal;
-    using Microsoft.Extensions.Configuration;
-    using Microsoft.Extensions.DependencyInjection;
-    using Microsoft.Extensions.Logging;
-
-    public class Program
+    private static async Task Main(string[] args)
     {
-        private static async Task Main(string[] args)
+        var configBuilder = new ConfigurationBuilder()
+            .SetBasePath(AppContext.BaseDirectory)
+            .AddEnvironmentVariables()
+            .AddCommandLine(args)
+            .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+
+        var config = configBuilder.Build();
+        var services = new ServiceCollection();
+
+        services.AddSingleton(_ => config);
+
+        services.AddOptions();
+        services.AddLogging(o =>
         {
-            var configBuilder = new ConfigurationBuilder()
-                .SetBasePath(AppContext.BaseDirectory)
-                .AddEnvironmentVariables()
-                .AddCommandLine(args)
-                .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true);
+            o.SetMinimumLevel(LogLevel.Debug);
+            o.AddConsole();
+        });
 
-            var config = configBuilder.Build();
-            var services = new ServiceCollection();
+        services.Configure<DiscordBotOptions>(config);
+        services.AddSingleton<IBot, DiscordBot>();
 
-            services.AddSingleton(_ => config);
-            
-            services.AddOptions();
-            services.AddLogging(o =>
-            {
-                o.SetMinimumLevel(LogLevel.Debug);
-                o.AddConsole();
-            });
+        await using var serviceProvider = services.BuildServiceProvider();
 
-            services.Configure<DiscordBotOptions>(config);
-            services.AddSingleton<IBot, DiscordBot>();
-            
-            await using var serviceProvider = services.BuildServiceProvider();
+        var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
 
-            var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
-
-            try
-            {
-                await RunAsync(serviceProvider);
-            }
-            catch (Exception ex)
-            {
-                logger.LogError(ex, "Unhandled exception");
-            }
+        try
+        {
+            await RunAsync(serviceProvider);
         }
-
-        private static async Task RunAsync(IServiceProvider serviceProvider)
+        catch (Exception ex)
         {
-            var bot = serviceProvider.GetRequiredService<IBot>();
-            
-            var done = new ManualResetEventSlim(false);
-            using var cts = new CancellationTokenSource();
-            using var lifetime = new BotLifetime(cts, done);
+            logger.LogError(ex, "Unhandled exception");
+        }
+    }
 
-            try
-            {
-                Console.WriteLine("Starting application...");
-                
-                await bot.StartAsync();
+    private static async Task RunAsync(IServiceProvider serviceProvider)
+    {
+        var bot = serviceProvider.GetRequiredService<IBot>();
 
-                Console.WriteLine("Application started. Press Ctrl+C to shut down.");
-                
-                await bot.WaitForTokenShutdownAsync(cts.Token);
-                
-                lifetime.SetExitedGracefully();
-            }
-            finally
-            {
-                done.Set();
-            }
+        var done = new ManualResetEventSlim(false);
+        using var cts = new CancellationTokenSource();
+        using var lifetime = new BotLifetime(cts, done);
+
+        try
+        {
+            Console.WriteLine("Starting application...");
+
+            await bot.StartAsync();
+
+            Console.WriteLine("Application started. Press Ctrl+C to shut down.");
+
+            await bot.WaitForTokenShutdownAsync(cts.Token);
+
+            lifetime.SetExitedGracefully();
+        }
+        finally
+        {
+            done.Set();
         }
     }
 }
