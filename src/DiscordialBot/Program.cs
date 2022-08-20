@@ -10,7 +10,7 @@ using Microsoft.Extensions.Logging;
 
 public class Program
 {
-    private static async Task Main(string[] args)
+    public static async Task Main(string[] args)
     {
         var configBuilder = new ConfigurationBuilder()
             .SetBasePath(AppContext.BaseDirectory)
