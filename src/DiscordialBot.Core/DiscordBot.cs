@@ -6,14 +6,14 @@ using Microsoft.Extensions.Options;
 public class DiscordBot : IDisposable, IBot
 {
     private readonly ILogger<DiscordBot> _logger;
-    private readonly IEnumerable<Command> _commands;
+    private readonly IEnumerable<ICommand> _commands;
     private readonly DiscordBotOptions _options;
     private readonly DiscordSocketClient _client;
 
     public DiscordBot(
         ILogger<DiscordBot> logger,
         IOptions<DiscordBotOptions> options,
-        IEnumerable<Command> commands)
+        IEnumerable<ICommand> commands)
     {
         _logger = logger;
         _commands = commands;
