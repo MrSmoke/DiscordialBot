@@ -1,5 +1,6 @@
 ﻿namespace DiscordialBot;
 
+using Commands;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
@@ -28,6 +29,9 @@ public class Program
 
         services.Configure<DiscordBotOptions>(config);
         services.AddSingleton<IBot, DiscordBot>();
+
+        // todo: make this nicer
+        services.AddSingleton<ICommand, PingCommand>();
 
         await using var serviceProvider = services.BuildServiceProvider();
 

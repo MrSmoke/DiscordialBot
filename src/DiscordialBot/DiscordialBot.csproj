@@ -20,6 +20,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\DiscordialBot.Commands\DiscordialBot.Commands.csproj" />
       <ProjectReference Include="..\DiscordialBot.Core\DiscordialBot.Core.csproj" />
     </ItemGroup>
 
