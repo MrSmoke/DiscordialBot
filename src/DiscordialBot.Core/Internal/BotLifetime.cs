@@ -1,6 +1,6 @@
-﻿namespace DiscordialBot.Core;
+﻿namespace DiscordialBot.Core.Internal;
 
-public class BotLifetime : IDisposable
+internal class BotLifetime : IDisposable
 {
     private readonly CancellationTokenSource _cts;
     private readonly ManualResetEventSlim _resetEvent;

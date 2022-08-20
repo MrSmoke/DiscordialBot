@@ -35,43 +35,17 @@ public class Program
         services.AddSingleton<ICommand, PingCommand>();
         services.AddSingleton<ICommand, Aoe2TauntCommand>();
 
-        await using var serviceProvider = services.BuildServiceProvider();
+        var host = new BotHost(services.BuildServiceProvider());
 
-        var logger = serviceProvider.GetRequiredService<ILogger<Program>>();
+        var logger = host.Services.GetRequiredService<ILogger<Program>>();
 
         try
         {
-            await RunAsync(serviceProvider);
+            await host.RunAsync();
         }
         catch (Exception ex)
         {
             logger.LogError(ex, "Unhandled exception");
-        }
-    }
-
-    private static async Task RunAsync(IServiceProvider serviceProvider)
-    {
-        var bot = serviceProvider.GetRequiredService<IBot>();
-
-        var done = new ManualResetEventSlim(false);
-        using var cts = new CancellationTokenSource();
-        using var lifetime = new BotLifetime(cts, done);
-
-        try
-        {
-            Console.WriteLine("Starting application...");
-
-            await bot.StartAsync();
-
-            Console.WriteLine("Application started. Press Ctrl+C to shut down.");
-
-            await bot.WaitForTokenShutdownAsync(cts.Token);
-
-            lifetime.SetExitedGracefully();
-        }
-        finally
-        {
-            done.Set();
         }
     }
 }

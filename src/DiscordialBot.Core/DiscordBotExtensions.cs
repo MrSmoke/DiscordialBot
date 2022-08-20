@@ -4,6 +4,8 @@ public static class DiscordBotExtensions
 {
     public static async Task WaitForTokenShutdownAsync(this IBot bot, CancellationToken cancellationToken)
     {
+        ArgumentNullException.ThrowIfNull(bot);
+
         var waitForStop = new TaskCompletionSource(TaskCreationOptions.RunContinuationsAsynchronously);
 
         cancellationToken.Register(state =>
